@@ -18,6 +18,9 @@ elif hasil < 30:
 else:
     print("Kategori : Obese") '''
 
+import csv
+import os
+
 def expanse():
     while True:
         print("\n=== Expanse Tracker ===")
@@ -30,13 +33,13 @@ def expanse():
         hasil = int(input("Pilih menu: "))
 
         if hasil == 1:
-            print("Tambah Pengeluaran")
+            tambah_pengeluaran()
 
         elif hasil == 2:
-            print("Lihat Pengeluaran")
+            lihat_pengeluaran()
 
         elif hasil == 3:
-            print("Total per Kategori")
+            total_per_kategori()
 
         elif hasil == 4:
             print("Keluar dari Program")
@@ -48,17 +51,53 @@ def expanse():
         else:
             print("Pilihan tidak valid")
 
+pengeluaran = []
+
+def tambah_pengeluaran():
+    nama = input("masukkan nama: ")
+    jumlah = int(input("masukkan jumlah: "))
+    kategori = input("masukkan kategori: ")
+
+    data = {
+        "nama": nama,
+        "jumlah": jumlah,
+        "kategori": kategori
+    }
+
+    pengeluaran.append(data)
+    simpan_ke_csv()
+
+def lihat_pengeluaran():
+    if not pengeluaran:
+        print("beluam ada pengeluaran")
+
+    else:
+        for i in pengeluaran:
+            print(f"Nama: {i['nama']}, Jumlah: {i['jumlah']}, Kategori: {i['kategori']}")
+
+def total_per_kategori():
+    total = {}
+    for item in pengeluaran:
+        kategori = item["kategori"]
+        jumlah = item["jumlah"]
+
+        if kategori in total:
+            total[kategori] = total[kategori] + jumlah
+
+        else:
+            total[kategori] = jumlah
+    for kategori, jumlah in total.items():
+        print(f"Kategori: {kategori}, Jumlah: {jumlah}")
+def simpan_ke_csv():
+    with open("expanse tracker.csv", mode='w') as file:
+        writer = csv.DictWriter(file, fieldnames=["nama", "jumlah", "kategori"])
+        writer.writeheader()
+        writer.writerows(pengeluaran)
+def muat_dari_csv():
+    if os.path.exists("expanse tracker.csv"):
+        with open("expanse tracker.csv", mode='r') as file:
+            reader = csv.DictReader(file)
+            for baris in reader:
+                pengeluaran.append(baris)
+muat_dari_csv()
 expanse()
-
- ''' pengeluaran = []
-
-kategori = input("Masukkan kategori: ")
-jumlah =int(input("Masukan jumlah"))
-
-print("kategori:", kategori)
-print("jumalah", jumlah)
-
-pengeluaran.append(data)
-
-print(pengeluaran) '''
-
