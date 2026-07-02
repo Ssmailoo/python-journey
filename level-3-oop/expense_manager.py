@@ -6,6 +6,13 @@ class ExpenseManager:
         self.expenses = []
 
     def add_expense(self, amount, category, description):
+        if amount <= 0:
+            raise ValueError("Amount must be greater than 0")
+        elif category.strip() == "":
+            raise ValueError("Category cannot be empty")
+        elif description.strip() == "":
+            raise ValueError("Description cannot be empty")
+        
         expense = {
             "amount": amount,
             "category": category,
@@ -31,13 +38,23 @@ class ExpenseManager:
         total = self.get_total()
         return f"{total_expense} expenses, Total: Rp{total}"
     
-
-# Test the class
 manager = ExpenseManager()
-manager.add_expense(50000, "food", "nasi goreng")
-manager.add_expense(20000, "transport", "angkot")
-manager.add_expense(30000, "food", "kopi")
 
+# Test 1 - amount negatif
+try:
+    manager.add_expense(-50000, "food", "burger")
+except ValueError as e:
+    print(f"Error: {e}")
+
+# Test 2 — category kosong
+try:
+    manager.add_expense(50000, "", "nasi goreng")
+except ValueError as e:
+    print(f"Error: {e}")
+
+# Test 3 — expense valid
+manager.add_expense(50000, "food", "nasi goreng")
 print(manager)
-print(manager.get_total())
-print(manager.get_by_category("food"))
+
+manager.add_expense(50000, "   ", "nasi goreng")
+print(manager)
