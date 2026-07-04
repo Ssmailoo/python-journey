@@ -45,15 +45,7 @@ class BusinessExpenseManager(ExpenseManager):
         return int(self.get_total() * (1 + self.tax_rate))
     
     def __str__(self):
-        return f"{len(self._ExpenseManager__expense)} expenses, Total: Rp{self.get_total()}, Tax: Rp{self.get_total_with_tax() - self.get_total()}"
-    
-    def __str__(self):
         total = self.get_total()
         total_with_tax = self.get_total_with_tax()
         return f"{super().__str__()}, Tax: Rp{total_with_tax - total}, Total with tax: Rp{total_with_tax}"
     
-business = BusinessExpenseManager(0.1)
-business.add_expense(100000, "equipment", "laptop stand")
-business.add_expense(50000, "food", "client lunch")
-
-print(business)
