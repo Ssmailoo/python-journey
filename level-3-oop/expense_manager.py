@@ -1,9 +1,9 @@
-# Refactor Expense Tracker v4 ke dalam OOP
+# Refactor Expense Tracker v4 with OOP
 
 class ExpenseManager:
 
     def __init__(self):
-        self.expenses = []
+        self.__expenses = []
 
     def add_expense(self, amount, category, description):
         if amount <= 0:
@@ -18,43 +18,28 @@ class ExpenseManager:
             "category": category,
             "description": description
         }
-        self.expenses.append(expense)
+        self.__expenses.append(expense)
+
+    def get_expenses(self):
+        return self.__expenses.copy()
 
     def get_total(self):
-        total = 0
-        for expense in self.expenses:
-            total += expense["amount"]
-        return total
+        return sum(expense["amount"] for expense in self.__expenses)
 
     def get_by_category(self, category):
-        filtered = []
-        for expense in self.expenses:
-            if expense["category"] == category:
-                filtered.append(expense)
-        return filtered
+        return [
+            expense 
+            for expense in self.__expenses 
+            if expense["category"] == category
+        ]
     
     def __str__(self):
-        total_expense = len(self.expenses)
-        total = self.get_total()
-        return f"{total_expense} expenses, Total: Rp{total}"
+        return f"{len(self.__expenses)} expenses, Total: Rp{self.get_total()}"
     
-manager = ExpenseManager()
-
-# Test 1 - amount negatif
-try:
-    manager.add_expense(-50000, "food", "burger")
-except ValueError as e:
-    print(f"Error: {e}")
-
-# Test 2 — category kosong
-try:
-    manager.add_expense(50000, "", "nasi goreng")
-except ValueError as e:
-    print(f"Error: {e}")
-
-# Test 3 — expense valid
-manager.add_expense(50000, "food", "nasi goreng")
-print(manager)
-
-manager.add_expense(50000, "   ", "nasi goreng")
-print(manager)
+class BusinessExpenseManager(ExpenseManager):
+    def __init__(self, tax_rate):
+        super().__init__()
+        self.tax_rate = tax_rate
+    
+    def get_total_with_tax(self):
+        return int(self.get_total() * (1 + self.tax_rate))
