@@ -43,6 +43,9 @@ class ExpenseManager:
         if not isinstance(other, ExpenseManager):
             return False
         return self.__expenses == other.get_expenses()
+    def __repr__(self):
+        return f"{self.__class__.__name__}(expenses={self.__expenses})"
+    
 
     
 class BusinessExpenseManager(ExpenseManager):
@@ -57,16 +60,3 @@ class BusinessExpenseManager(ExpenseManager):
         total = self.get_total()
         total_with_tax = self.get_total_with_tax()
         return f"{super().__str__()}, Tax: Rp{total_with_tax - total}, Total with tax: Rp{total_with_tax}"
-    
-manager1 = ExpenseManager()
-manager1.add_expense(50000, "food", "nasi goreng")
-
-manager2 = ExpenseManager()
-manager2.add_expense(50000, "food", "nasi goreng")
-
-manager3 = ExpenseManager()
-manager3.add_expense(99999, "transport", "angkot")
-
-print(manager1 == manager2)   # isi sama
-print(manager1 == manager3)   # isi berbeda
-print(manager1 == "hello")    # bukan ExpenseManager
