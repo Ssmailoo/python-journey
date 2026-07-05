@@ -36,6 +36,15 @@ class ExpenseManager:
     def __str__(self):
         return f"{len(self.__expenses)} expenses, Total: Rp{self.get_total()}"
     
+    def __len__(self):
+        return len(self.__expenses)
+    
+    def __eq__(self, other):
+        if not isinstance(other, ExpenseManager):
+            return False
+        return self.__expenses == other.get_expenses()
+
+    
 class BusinessExpenseManager(ExpenseManager):
     def __init__(self, tax_rate):
         super().__init__()
@@ -49,3 +58,15 @@ class BusinessExpenseManager(ExpenseManager):
         total_with_tax = self.get_total_with_tax()
         return f"{super().__str__()}, Tax: Rp{total_with_tax - total}, Total with tax: Rp{total_with_tax}"
     
+manager1 = ExpenseManager()
+manager1.add_expense(50000, "food", "nasi goreng")
+
+manager2 = ExpenseManager()
+manager2.add_expense(50000, "food", "nasi goreng")
+
+manager3 = ExpenseManager()
+manager3.add_expense(99999, "transport", "angkot")
+
+print(manager1 == manager2)   # isi sama
+print(manager1 == manager3)   # isi berbeda
+print(manager1 == "hello")    # bukan ExpenseManager
