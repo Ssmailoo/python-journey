@@ -1,9 +1,12 @@
-# Test the class
+from expense_manager.manager import ExpenseManager
+from expense_manager.business import BusinessExpenseManager
+
 manager = ExpenseManager()
 manager.add_expense(50000, "food", "nasi goreng")
 manager.add_expense(20000, "transport", "angkot")
-manager.add_expense(30000, "food", "kopi")
-
 print(manager)
-print(manager.get_total())
-print(manager.get_by_category("food"))
+
+business = BusinessExpenseManager(0.1)
+business.add_expense(100000, "equipment", "laptop stand")
+business.add_expense(50000, "food", "client lunch")
+print(business)

@@ -1,5 +1,3 @@
-# Refactor Expense Tracker v4 with OOP
-
 class ExpenseManager:
 
     def __init__(self):
@@ -36,6 +34,9 @@ class ExpenseManager:
     def __str__(self):
         return f"{len(self.__expenses)} expenses, Total: Rp{self.get_total()}"
     
+    def __repr__(self):
+        return f"{self.__class__.__name__}(expenses={self.__expenses})"
+    
     def __len__(self):
         return len(self.__expenses)
     
@@ -43,20 +44,3 @@ class ExpenseManager:
         if not isinstance(other, ExpenseManager):
             return False
         return self.__expenses == other.get_expenses()
-    def __repr__(self):
-        return f"{self.__class__.__name__}(expenses={self.__expenses})"
-    
-
-    
-class BusinessExpenseManager(ExpenseManager):
-    def __init__(self, tax_rate):
-        super().__init__()
-        self.tax_rate = tax_rate
-    
-    def get_total_with_tax(self):
-        return int(self.get_total() * (1 + self.tax_rate))
-    
-    def __str__(self):
-        total = self.get_total()
-        total_with_tax = self.get_total_with_tax()
-        return f"{super().__str__()}, Tax: Rp{total_with_tax - total}, Total with tax: Rp{total_with_tax}"
